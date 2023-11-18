@@ -5,4 +5,5 @@ export type Event_ = {
     ware: string;
     message: string;
     responsible: string;
+    isRead: boolean;
 };

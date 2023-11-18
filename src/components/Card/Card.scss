@@ -1,3 +1,19 @@
+.Card {
+    cursor: pointer;
+    max-height: 230px;
+    overflow-y: hidden;
+    position: relative;
+    background-color: #fff;
+}
+
+.open {
+    max-height: fit-content;
+}
+
+.active {
+    box-shadow: 0 0 8px white;
+}
+
 .avatar {
     min-width: 70px;
     min-height: 70px;
@@ -8,4 +24,16 @@
 
 .msg {
     word-wrap: break-word;
+}
+
+.read {
+    background-color: #cecece;
+    & .fade {
+        height: 50px;
+        width: 100%;
+        background: linear-gradient(transparent, #cecece);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
 }
