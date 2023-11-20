@@ -13,8 +13,17 @@ import { Message } from "primereact/message";
 import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
 import { Button } from "primereact/button";
+import { Event_ } from "./types/Event_";
 
 const App = observer(() => {
+    const [filters, setFilters] = useState({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    });
+
+    const [filteredEvents, setFilteredEvents] = useState<Event_[]>(null);
+
+    const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
+
     useEffect(() => {
         card.getEvents();
 
@@ -30,11 +39,9 @@ const App = observer(() => {
         return () => document.removeEventListener("keydown", handleKeydown);
     }, []);
 
-    const [filters, setFilters] = useState({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    });
-
-    const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
+    useEffect(() => {
+        setFilteredEvents(card.events);
+    }, [card.events]);
 
     const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGlobalFilterValue(e.target.value);
@@ -47,11 +54,14 @@ const App = observer(() => {
         _filters["global"].value = value;
 
         setFilters(_filters);
+        setFilteredEvents(
+            card.events.filter((event) => JSON.stringify(event).toLowerCase().includes(value))
+        );
     };
 
     const renderHeader = () => {
         return (
-            <div className="flex justify-content-start z-5 w-full static md:absolute md:justify-content-end">
+            <div className="flex justify-content-start z-1 static md:absolute md:right-0 md:justify-content-end">
                 <InputText
                     value={globalFilterValue}
                     onChange={onGlobalFilterChange}
@@ -88,7 +98,7 @@ const App = observer(() => {
                         <TabPanel header="Карточки">
                             <DataView
                                 className="grid max-w-max"
-                                value={card.events}
+                                value={filteredEvents}
                                 itemTemplate={(e) => <CardItem event={e} />}
                                 paginator
                                 rows={9}
