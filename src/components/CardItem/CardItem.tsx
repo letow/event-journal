@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Event_ } from "../../types/Event_";
-import card from "./../../store/Cards";
+import card from "../../store/Events";
 import Card from "../Card/Card";
 import { observer } from "mobx-react-lite";
 

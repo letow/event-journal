@@ -1,10 +1,12 @@
 import { makeAutoObservable } from "mobx";
 import { Event_ } from "../types/Event_";
 
-class Cards {
+class Events {
     events: Event_[] = [];
     SERVER = "http://localhost:5000/";
     activeCard: Event_ = null;
+    isError: boolean = null;
+    error: string = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -13,7 +15,11 @@ class Cards {
     getEvents() {
         fetch(this.SERVER + "events")
             .then((response) => response.json())
-            .then((data) => (this.events = [...data]));
+            .then((data) => (this.events = [...data]))
+            .catch((error) => {
+                this.isError = true;
+                this.error = error.message;
+            });
     }
 
     setActiveCard(event: Event_) {
@@ -30,8 +36,13 @@ class Cards {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ isRead: true }),
-        });
+        })
+            .then(() => (this.isError = false))
+            .catch((error) => {
+                this.isError = true;
+                this.error = error.message;
+            });
     }
 }
 
-export default new Cards();
+export default new Events();
