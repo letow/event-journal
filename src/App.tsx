@@ -92,6 +92,7 @@ const App = observer(() => {
                                 itemTemplate={(e) => <CardItem event={e} />}
                                 paginator
                                 rows={9}
+                                emptyMessage="Нет результатов"
                             />
                         </TabPanel>
                     </TabView>

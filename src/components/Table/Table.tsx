@@ -21,6 +21,7 @@ const Table: FC<TableProps> = ({ events, globalFilterFields, filters }) => {
             filters={filters}
             tableStyle={{ minWidth: "10rem" }}
             globalFilterFields={globalFilterFields}
+            emptyMessage="Нет результатов"
         >
             <Column field="date" header="Дата" filterField="date"></Column>
             <Column field="importance" header="Важность" filterField="importance"></Column>
