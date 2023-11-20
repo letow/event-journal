@@ -36,7 +36,7 @@ const Card: FC<CardProps> = ({ event, isActive }) => {
                     </div>
                 </div>
                 <div className="flex col-fixed flex-column align-items-center">
-                    <div className="avatar"></div>
+                    <div className="avatar" />
                     <div className="name">{event.responsible}</div>
                 </div>
             </div>
