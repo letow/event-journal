@@ -3,7 +3,7 @@ import { Event_ } from "../types/Event_";
 
 class Events {
     events: Event_[] = [];
-    SERVER = "http://localhost:5000/";
+    SERVER = "https://my-json-server.typicode.com/letow/ev-db/";
     activeCard: Event_ = null;
     isError: boolean = null;
     error: string = null;
