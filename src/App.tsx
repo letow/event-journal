@@ -108,7 +108,7 @@ const App = observer(() => {
                         </TabPanel>
                         <TabPanel header="Карточки">
                             <DataView
-                                className="grid max-w-max"
+                                className="grid w-full"
                                 value={filteredEvents}
                                 itemTemplate={(e) => <CardItem event={e} />}
                                 paginator
