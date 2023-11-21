@@ -7,13 +7,14 @@ import { useEffect, useState } from "react";
 import Table from "./components/Table/Table";
 import { observer } from "mobx-react-lite";
 import { DataView } from "primereact/dataview";
-import card from "./store/Events";
+import store from "./store/Events";
 import CardItem from "./components/CardItem/CardItem";
 import { Message } from "primereact/message";
 import { InputText } from "primereact/inputtext";
 import { Panel } from "primereact/panel";
 import { Button } from "primereact/button";
 import { Event_ } from "./types/Event_";
+import { getRandInt } from "./helpers/getRandInt";
 
 const App = observer(() => {
     const [filters, setFilters] = useState({
@@ -25,23 +26,33 @@ const App = observer(() => {
     const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
 
     useEffect(() => {
-        card.getEvents();
+        //store.getEvents();
 
         const handleKeydown = (e: KeyboardEvent) => {
-            if (e.code === "Space" && card.activeCard) {
+            if (e.code === "Space" && store.activeCard) {
                 e.preventDefault();
-                card.readEvent(card.activeCard);
+                store.readEvent(store.activeCard);
             }
         };
 
         document.addEventListener("keydown", handleKeydown);
 
-        return () => document.removeEventListener("keydown", handleKeydown);
+        const timer = setInterval(
+            () => {
+                store.addEvent();
+            },
+            getRandInt(5, 10) * 1000
+        );
+
+        return () => {
+            document.removeEventListener("keydown", handleKeydown);
+            clearInterval(timer);
+        };
     }, []);
 
     useEffect(() => {
-        setFilteredEvents(card.events);
-    }, [card.events]);
+        setFilteredEvents(store.events);
+    }, [store.events.length]);
 
     const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGlobalFilterValue(e.target.value);
@@ -55,7 +66,7 @@ const App = observer(() => {
 
         setFilters(_filters);
         setFilteredEvents(
-            card.events.filter((event) => JSON.stringify(event).toLowerCase().includes(value))
+            store.events.filter((event) => JSON.stringify(event).toLowerCase().includes(value))
         );
     };
 
@@ -80,11 +91,11 @@ const App = observer(() => {
         <PrimeReactProvider>
             <div className="App">
                 <Panel headerTemplate={header} className="relative">
-                    {card.isError && <Message severity="error" text={card.error} />}
+                    {store.isError && <Message severity="error" text={store.error} />}
                     <TabView>
                         <TabPanel header="Таблица">
                             <Table
-                                events={card.events}
+                                events={store.events}
                                 filters={filters}
                                 globalFilterFields={[
                                     "date",
