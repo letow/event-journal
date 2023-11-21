@@ -11,7 +11,7 @@ interface CardItemProps {
 const CardItem: FC<CardItemProps> = observer(({ event }) => {
     return (
         <div
-            className="col-12 lg:col-6 xl:col-4 p-3"
+            className="col-12 p-1 lg:col-6 xl:col-4 md:p-3"
             key={event.id}
             onClick={() => card.setActiveCard(event)}
         >

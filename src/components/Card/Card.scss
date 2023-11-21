@@ -1,13 +1,15 @@
 .Card {
     cursor: pointer;
-    max-height: 230px;
+    height: 230px;
+    min-width: 350px;
     overflow-y: hidden;
     position: relative;
     background-color: #fff;
+    animation: 0.5s ease-out 0s 1 slideInFromLeft;
 }
 
 .open {
-    max-height: fit-content;
+    height: fit-content;
 }
 
 .active {
@@ -40,5 +42,21 @@
 
     & .fade {
         background: linear-gradient(transparent, #cecece);
+    }
+}
+
+@media (max-width: 500px) {
+    .Card {
+        font-size: 11px;
+        min-width: 300px;
+    }
+}
+
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
     }
 }
